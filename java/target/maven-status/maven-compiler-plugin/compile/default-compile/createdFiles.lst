@@ -1,0 +1,4 @@
+com/yg/email/entity/Email.class
+com/yg/email/EmailServlet.class
+com/yg/email/dao/EmailDao.class
+com/yg/email/service/EmailService.class
