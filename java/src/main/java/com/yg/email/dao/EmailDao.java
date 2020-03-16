@@ -85,4 +85,39 @@ public class EmailDao {
 
         return null;
     }
+
+    /**
+     * 根据ID删除
+     * @param id
+     * @return
+     */
+    public int deleteById(int id) {
+        Connection conn = null;
+        Statement st = null;
+
+        try {
+            // 获取连接
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+
+            st = conn.createStatement();
+
+            return st.executeUpdate("delete from tb_email where id = " + id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (st != null) {
+                    st.close();
+                }
+
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return 0;
+    }
 }

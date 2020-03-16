@@ -13,4 +13,13 @@ public class EmailService {
     public List<Email> getEmailList() {
         return new EmailDao().getEmailList();
     }
+
+    /**
+     * 根据ID删除邮件
+     * @param id
+     * @return
+     */
+    public boolean deleteById(int id) {
+        return new EmailDao().deleteById(id) > 0;
+    }
 }

@@ -13,14 +13,29 @@ import java.util.List;
 public class EmailServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Email> emailList = getEmailList();
+        String uri = req.getRequestURI();
 
-        req.setAttribute("emailList", emailList);
+        if (uri.equals("/email/list")) {
+            List<Email> emailList = getEmailList();
 
-        req.setAttribute("msg", "hello");
+            req.setAttribute("emailList", emailList);
 
-        // servlet 跳转到jsp页面
-        req.getRequestDispatcher("/WEB-INF/list.jsp").forward(req, resp);
+            // WEB-INF文件夹下的文件是受保护的，不能通过浏览器访问
+            // servlet 跳转到jsp页面
+            req.getRequestDispatcher("/WEB-INF/email/list.jsp").forward(req, resp);
+        } else if (uri.equals("/email/delete")) {
+            String ids = req.getParameter("ids");
+
+            String[] idArr = ids.split(",");
+
+            for(int i=0; i<idArr.length; i++) {
+                int id = Integer.parseInt(idArr[i]);// parse 解析
+
+                new EmailService().deleteById(id);
+            }
+
+            resp.sendRedirect("/email/list");
+        }
     }
 
     /**

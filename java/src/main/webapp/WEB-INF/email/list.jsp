@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
@@ -55,18 +56,23 @@
         function deleteCheckedEmail() {
             var checkboxArr = document.getElementsByName('email-checkbox');
 
-            for(var i=checkboxArr.length-1; i>=0; i--) {
+            var idStr = "";
+            for(var i=0; i<checkboxArr.length; i++) {
                 if(checkboxArr[i].checked) {
-                    var trEle = checkboxArr[i].parentNode.parentNode;
-                    trEle.remove();
+                    idStr = idStr + checkboxArr[i].value + ","; //
                 }
             }
-        }
 
+            idStr = idStr.substring(0, idStr.length - 1);
+
+            var url = location.href;
+
+            location.href = "/email/delete?ids=" + idStr;
+        }
     </script>
 </head>
 <body>
-    ${msg}124
+    ${msg}
     <table>
         <thead>
         <tr>
@@ -80,7 +86,7 @@
         <tbody>
             <c:forEach items="${emailList}" var="email">
                 <tr>
-                    <td><input type="checkbox" name="email-checkbox"></td>
+                    <td><input type="checkbox" name="email-checkbox" value="${email.id}"></td>
                     <td>${email.senderName}</td>
                     <td>${email.title}</td>
                     <td>${email.content}</td>
